@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+         <form action="../CustomerController" method="get" onsubmit="return checkPass()">
+            <p> Full name: <input type="text" name="cName" id="cName" required></p>
+            <p> Phone: <input type="number" name="cPhone" id="cPhone"></p>
+            <p> Email: <input type="text" name="cEmail" id="cEmail" required></p>
+            <p> UserName: <input type="text" name="cUsername" id="cUsername" required></p>
+            <p> Password: <input type="password" name="cPassword" id="cPassword" required></p>
+            <p> ReType password: <input type="password" name="rePassword" id="rePassword" required></p>
+
+            <p><input type="submit" value="Register" onclick="return checkPass()" >
+                <input type="reset" value="Reset"></p>
+            <input type="hidden" name="service" value="insertCustomer">
+
+        </form>
+        <script>
+            function checkPass(){
+                pass=document.getElemementById("cPassword").innerHTML;
+                pass2=document.getElemementById("rePassword").innerHTML;
+                if(pass!==pass2){
+                    alert("check pass");
+                    return false;
+                }else{
+                    return true;
+                
+                }
+                }
+            
+         </script>   
+    </body>
+</html>

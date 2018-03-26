@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Product</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="../ProductController" method="get">
+            <p> Product Name:  <input type="text" name="pname" id="pname" ></p>           
+            <p> Quantity :  <input type="number" name="quantity" id="quantity"></p>
+            <p> Price :  <input type="number" name="price" id="price"></p>
+            <p> Image :  <input type="text" name="image" id="image"></p>
+            <p> Description :  <input type="text" name="description" id="description"></p><select name="Cat">
+                <option></option>
+                <option></option>
+            </select>
+            <p> Category ID :  <input type="text" name="catid" id="catid"></p>
+            <p><input type="submit" value="Register">
+                <input type="reset" value="Reset"></p>
+            <input type="hidden" name="service" value="insertProduct">
+
+        </form>     
+    </body>
+</html>
