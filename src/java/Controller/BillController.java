@@ -5,23 +5,22 @@
  */
 package Controller;
 
-import Entity.Customer;
-import Model.CustomerDAO;
+import Model.BillDAO;
 import Model.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Kudo
  */
-public class UserController extends HttpServlet {
+public class BillController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,47 +34,31 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(true);
         DBConnection db = new DBConnection();
-        CustomerDAO dao = new CustomerDAO(db);
+        BillDAO dao = new BillDAO(db);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String username = request.getParameter("loginID");
-            String password = request.getParameter("password");
             String service = request.getParameter("service");
             if (service == null) {
-                service = "login";
+                service = "listBill";
             }
-            if (service.equalsIgnoreCase("logout")) {
-                session.invalidate();
-                String err = "You've logged out.Please Log in to continue";
-                request.setAttribute("error", err);
-                RequestDispatcher dis = request.getRequestDispatcher("/loginForm.jsp");
-                dis.forward(request, response);
-            }
-            Customer cus = dao.getCustomer(username, password);
-            if (cus != null) {
-                session.setAttribute("User", cus);
-                if (!cus.getUsername().equalsIgnoreCase("admin")) {
-                    response.sendRedirect("ProductController");
-                } else {
-                    response.sendRedirect("BillController");
-                }
-            } else {
-                String err = "Wrong username/password. Try again.";
-                if (service.equalsIgnoreCase("login")) {
-                    err = "Please log in to continue";
-                }
-                request.setAttribute("error", err);
-                RequestDispatcher dis = request.getRequestDispatcher("/loginForm.jsp");
+            if (service.equalsIgnoreCase("listBill")) {
+                String sql = "Select bid,c.cname,datecreate,total,b.status from bill b inner join customer c on b.Cid = c.cid";
+                ResultSet rs = db.getData(sql);
+                request.setAttribute("kq", rs);
+                //request.setAttribute("loginBean", (LoginBean) session.getAttribute("loginBean"));
+                //call view
+                //set view: JSP 
+                RequestDispatcher dis = request.getRequestDispatcher("/AdminPage.jsp");
                 //run
-                dis.forward(request, response);
-            }
 
+                dis.forward(request, response);
+
+            }
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

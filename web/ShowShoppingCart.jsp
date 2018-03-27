@@ -31,18 +31,23 @@
                     out.println("<td>" + id + "</td>");
                     String sql = "select * from Product where status=1 and pid=" + Integer.parseInt(id);
                     ResultSet rs = db.getData(sql);
-                    while (rs.next()) {%>
-            <td> <%= rs.getString(2)%></td>
-            <td><input type="text" value="<%=count%>" name="<%=id%>"/></td>
-            <td> <%= rs.getInt(4)%> </td>
-            <td><%= (rs.getInt(4) * Integer.parseInt(count))%></td>
-            <% total += rs.getInt(4) * Integer.parseInt(count);%>
-            <td><a href=ProductController?service=removeFromCart&pid=<%=id%>>Remove</a></td>
-            <%  }%>
-        </tr>
-        <% }%>
-        <tr><td></td><td><a href='#'>Update</a></td><td></td><td>Total</td><td> <%=total%> </td>
-            <td><a href=ProductController?service=removeFromCart&pid=all>Remove All</td></tr>
+
+            %>
+            <form action="ProductController" method="post">
+                <%while (rs.next()) {%>
+                <td> <%= rs.getString(2)%></td>
+                <td><input type="text" value="<%=count%>" name="<%=id%>"/></td>
+                <td> <%= rs.getInt(4)%> </td>
+                <td><%= (rs.getInt(4) * Integer.parseInt(count))%></td>
+                <% total += rs.getInt(4) * Integer.parseInt(count);%>
+                <td><a href=ProductController?service=removeFromCart&pid=<%=id%>>Remove</a></td>
+                <%  }%>
+                </tr>
+                <%}%>
+                <input type="hidden" name="service" value="changeAmount">
+                <tr><td></td><td><input type="submit" value="Update" class="btn btn-primary btn-md"></td><td></td><td>Total</td><td> <%=total%> </td>
+            </form>
+            <td><a href=ProductController?service=removeFromCart&pid=all class="btn btn-danger btn-md">Remove All</td></tr>
 
 
     </table>       

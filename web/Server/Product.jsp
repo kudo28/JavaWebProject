@@ -34,7 +34,7 @@
                 <th>Description</th>
                 <th>Update</th>
                 <th>Delete</th>
-                <th>Selection </th>
+                
             </tr>
 
             <% while (rs.next()) {%>
@@ -47,8 +47,7 @@
                 <td><img height="50" width="70" src="<%=rs.getString(8)%> "></td>
                 <td><%=rs.getString(9)%></td>
                 <td><a href=ProductController?service=preUpdate&pid=<%=rs.getString(4)%>&cid=<%=rs.getString(1)%>>Update</a></td>
-                <td><a href=ProductController?service=delete&pid=<%=rs.getString(4)%>&cid=<%=rs.getString(1)%>>Delete</a></td>
-                <td><a href=ProductController?service=addToCart&pid=<%=rs.getString(4)%>>Add to Cart </a></td>
+                <td><a href=ProductController?service=delete&pid=<%=rs.getString(4)%>&cid=<%=rs.getString(1)%>>Delete</a></td>              
             </tr>
             <%}%>
         </table>

@@ -53,6 +53,39 @@ public class ProductController extends HttpServlet {
             if (service == null) {
                 service = "listProduct";
             }
+            if (service.equalsIgnoreCase("manageProduct")) {
+                String catID = request.getParameter("catID");
+                String sql = "select * from Category";
+                String productID = request.getParameter("pid");
+                String psql = "";
+                if (productID != null) {
+                    psql = " AND b.pid=" + productID;
+                }
+                ResultSet crs = db.getData(sql);
+                if (catID == null || catID.equalsIgnoreCase("") || catID.equalsIgnoreCase("all")) {
+                    sql = "select * from category as a inner join Product as b on a.catID=b.catid "
+                            + " where a.status=1 and b.status=1";
+                } else {
+                    sql = "select * from category as a inner join Product as b on a.catID=b.catid "
+                            + " where a.status=1 and b.status=1 and a.catID='" + catID + "'";
+                }
+                sql += psql;
+                ResultSet rs = db.getData(sql);
+                // ResultSet rs = db.getData(sql);
+//                while(rs.next())
+//                out.print(rs.getString(1));
+                //Set value for view
+
+                request.setAttribute("pkq", rs);
+                request.setAttribute("ckq", crs);
+                //request.setAttribute("loginBean", (LoginBean) session.getAttribute("loginBean"));
+                //call view
+                //set view: JSP 
+                RequestDispatcher dis = request.getRequestDispatcher("Server/Product.jsp");
+                //run
+
+                dis.forward(request, response);
+            }
             if (service.equals("listProduct")) {
                 //change model
 //                String sql = "select * from Product";
@@ -168,7 +201,7 @@ public class ProductController extends HttpServlet {
                     session.invalidate();
                     HttpSession session1 = request.getSession();
                     session1.setAttribute("User", temp);
-                } else{
+                } else {
                     session.removeAttribute(id);
                 }
                 response.sendRedirect("ProductController");
@@ -182,14 +215,12 @@ public class ProductController extends HttpServlet {
                 int total = 0;
                 Date date = new Date();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-
-                Bill bill = new Bill(sqlDate, 2, "123", "456", "789", "Unknown");
-
+                Customer temp = (Customer) session.getAttribute("User");
+                Bill bill = new Bill(sqlDate, temp.getID(), temp.getName(), temp.getPhoneNumber(), temp.getEmail(), " ");
                 BillDAO billDao = new BillDAO(db);
                 int x = billDao.insertBill(bill);
                 int billID = billDao.getLastBill();
                 bill.setID(billID);
-                // out.println("<h1>" + x + " " + billID + "</h1>");
                 BillDetailDAO bdDao = new BillDetailDAO(db);
 
                 for (; em.hasMoreElements();) {
@@ -202,23 +233,32 @@ public class ProductController extends HttpServlet {
                     String sql = "select * from Product where status=1 and pid=" + Integer.parseInt(id);
                     ResultSet rs = db.getData(sql);
                     while (rs.next()) {
-//                        out.println("<h1>"+rs.getInt(1)+"</h1>");
                         BillDetail billDetail = new BillDetail(billID, rs.getInt(1), Integer.parseInt(count), rs.getInt(4));
-                        total += rs.getInt(4) * Integer.parseInt(count);;
+                        total += rs.getInt(4) * Integer.parseInt(count);
                         bdDao.insertBillDetail(billDetail);
                     }
                 }
                 bill.setTotal(total);
                 billDao.updateBill(bill);
-                Customer temp = (Customer) session.getAttribute("User");
                 session.invalidate();
                 HttpSession session1 = request.getSession();
                 session1.setAttribute("User", temp);
                 response.sendRedirect("ProductController");
 
             }
-            if(service.equalsIgnoreCase("changeAmount")){
-                
+            if (service.equalsIgnoreCase("changeAmount")) {
+                java.util.Enumeration em = session.getAttributeNames();
+                for (; em.hasMoreElements();) {
+                    String id = em.nextElement().toString();
+                    //get value from session object (see HttpSession)
+                    if (id.equalsIgnoreCase("User")) {
+                        continue;
+                    }
+                    String count = request.getParameter(id);
+                    session.setAttribute(id, String.valueOf(count));
+                }
+                response.sendRedirect("ShowShoppingCart.jsp");
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);

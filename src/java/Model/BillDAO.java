@@ -55,9 +55,22 @@ public class BillDAO {
         return n;
     }
 
+    public int changeStatus(String bid) {
+        int n = 0;
+        String sql = "UPDATE Bill SET status = 1 where bid = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, bid);
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
+
     public int updateBill(Bill bill) {
         int n = 0;
-        String sql = "UPDATE Bill SET datecreate=?, Cid=?, recName=?, recPhone = ? , recEmail= ? , infor = ?, total = ? where bid ="+bill.getID();
+        String sql = "UPDATE Bill SET datecreate=?, Cid=?, recName=?, recPhone = ? , recEmail= ? , infor = ?, total = ? where bid =" + bill.getID();
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setDate(1, bill.getDateCreated());
@@ -81,7 +94,7 @@ public class BillDAO {
             ResultSet rs = db.getData(sql);
             while (rs.next()) {
                 n = rs.getInt(1);
-            }          
+            }
         } catch (SQLException ex) {
             Logger.getLogger(BillDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -12,6 +12,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+
         <title>Banner</title>
     </head>
     <body >        
@@ -39,34 +40,7 @@
              <div class="col-md-12"><a href="UserController?service=logout" class="btn btn-danger btn-md">Log out</a> </div>
              <%}%>
             </div>
-            <div class="col-md-4 row" >
-                <div class="col-md-6"> <h4><a href= "ShowShoppingCart.jsp"><img src="image/cart.png" height="50" width="70"/></a> </div>
-                <div class="col-md-6">
-                    <%
-                        int total = 0;
-                        int totalCount = 0;
-                        DBConnection db = new DBConnection();
-                        java.util.Enumeration em = session.getAttributeNames();
-                        for (; em.hasMoreElements();) {
-                            String id = em.nextElement().toString();
-                            if (id.equalsIgnoreCase("User")) {
-                                continue;
-                            }
-                            //get value from session object (see HttpSession)
-                            String count = session.getAttribute(id).toString();
-                            String sql = "select * from Product where status=1 and pid=" + Integer.parseInt(id);
-                            ResultSet rs = db.getData(sql);
-
-                            while (rs.next()) {
-                                total += rs.getInt(4) * Integer.parseInt(count);
-                                totalCount += Integer.parseInt(count);
-                            }
-                        }
-                        out.println("<div>Total Amount: " + totalCount + "</div>");
-                        out.println("Total Cost: " + total);
-                    %>
-
-                </div>
+            <div class="col-md-4 row" >              
             </div>
         </div>
     </body>

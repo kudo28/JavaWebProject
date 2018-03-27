@@ -77,7 +77,7 @@ public class CategoryController extends HttpServlet {
                 request.setAttribute("title", "Category List");
                 //call view
                 //set view: JSP 
-                RequestDispatcher dis = request.getRequestDispatcher("/Category.jsp");
+                RequestDispatcher dis = request.getRequestDispatcher("/Server/Category.jsp");
                 //run
                 dis.forward(request, response);
 //                out.print(" <table border=\"1\">\n"
