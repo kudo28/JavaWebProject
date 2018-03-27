@@ -6,37 +6,39 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Register</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body>
-         <form action="../CustomerController" method="get" onsubmit="return checkPass()">
+    <body style="background-image: url('../image/log.jpeg')">
+        <form action="../CustomerController" method="get" onsubmit="return checkPass()" style="margin-left: 25%; margin-top: 5%;color:white">
             <p> Full name: <input type="text" name="cName" id="cName" required></p>
-            <p> Phone: <input type="number" name="cPhone" id="cPhone"></p>
-            <p> Email: <input type="text" name="cEmail" id="cEmail" required></p>
+            <p> Phone : <input type="number" name="cPhone" id="cPhone"></p>
+            <p> Email : <input type="text" name="cEmail" id="cEmail" required></p>
             <p> UserName: <input type="text" name="cUsername" id="cUsername" required></p>
             <p> Password: <input type="password" name="cPassword" id="cPassword" required></p>
-            <p> ReType password: <input type="password" name="rePassword" id="rePassword" required></p>
+            <p> Retype password: <input type="password" name="rePassword" id="rePassword" required></p>
 
-            <p><input type="submit" value="Register" onclick="return checkPass()" >
-                <input type="reset" value="Reset"></p>
+            <p><input type="submit" value="Register" onclick="return checkPass()" class="btn btn-primary btn-md" >
+                <input type="reset" value="Reset" class="btn btn-default btn-md">              
+            </p>
             <input type="hidden" name="service" value="insertCustomer">
 
         </form>
         <script>
-            function checkPass(){
-                pass=document.getElemementById("cPassword").innerHTML;
-                pass2=document.getElemementById("rePassword").innerHTML;
-                if(pass!==pass2){
+            function checkPass() {
+                pass = document.getElemementById("cPassword").innerHTML;
+                pass2 = document.getElemementById("rePassword").innerHTML;
+                if (pass !== pass2) {
                     alert("check pass");
                     return false;
-                }else{
+                } else {
                     return true;
-                
+
                 }
-                }
-            
-         </script>   
+            }
+
+        </script>   
     </body>
 </html>

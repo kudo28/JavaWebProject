@@ -7,6 +7,7 @@ package Controller;
 
 import Entity.Bill;
 import Entity.BillDetail;
+import Entity.Customer;
 import Model.BillDAO;
 import Model.BillDetailDAO;
 import Model.DBConnection;
@@ -58,6 +59,11 @@ public class ProductController extends HttpServlet {
                 //   + " where a.status=1 and b.status=1";
                 String catID = request.getParameter("catID");
                 String sql = "select * from Category";
+                String productID = request.getParameter("pid");
+                String psql = "";
+                if (productID != null) {
+                    psql = " AND b.pid=" + productID;
+                }
                 ResultSet crs = db.getData(sql);
                 if (catID == null || catID.equalsIgnoreCase("") || catID.equalsIgnoreCase("all")) {
                     sql = "select * from category as a inner join Product as b on a.catID=b.catid "
@@ -66,6 +72,7 @@ public class ProductController extends HttpServlet {
                     sql = "select * from category as a inner join Product as b on a.catID=b.catid "
                             + " where a.status=1 and b.status=1 and a.catID='" + catID + "'";
                 }
+                sql += psql;
                 ResultSet rs = db.getData(sql);
                 // ResultSet rs = db.getData(sql);
 //                while(rs.next())
@@ -157,7 +164,10 @@ public class ProductController extends HttpServlet {
                 String id = request.getParameter("pid");
                 session.setAttribute(id, null);
                 if (id.equalsIgnoreCase("all")) {
+                    Customer temp = (Customer) session.getAttribute("User");
                     session.invalidate();
+                    HttpSession session1 = request.getSession();
+                    session1.setAttribute("User", temp);
                 }
                 response.sendRedirect("ProductController");
             }
@@ -183,6 +193,9 @@ public class ProductController extends HttpServlet {
                 for (; em.hasMoreElements();) {
                     String id = em.nextElement().toString();
                     //get value from session object (see HttpSession)
+                    if (id.equalsIgnoreCase("User")) {
+                        continue;
+                    }
                     String count = session.getAttribute(id).toString();
                     String sql = "select * from Product where status=1 and pid=" + Integer.parseInt(id);
                     ResultSet rs = db.getData(sql);
@@ -195,8 +208,12 @@ public class ProductController extends HttpServlet {
                 }
                 bill.setTotal(total);
                 billDao.updateBill(bill);
+                Customer temp = (Customer) session.getAttribute("User");
                 session.invalidate();
+                HttpSession session1 = request.getSession();
+                session1.setAttribute("User", temp);
                 response.sendRedirect("ProductController");
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);

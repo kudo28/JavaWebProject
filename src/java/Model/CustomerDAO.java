@@ -156,7 +156,7 @@ public class CustomerDAO {
         PreparedStatement statement;
         try {
             statement = conn.prepareStatement(checkSQL);
-            statement.setInt(1, id);          
+            statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             if (!rs.next()) {
                 return n;
@@ -177,6 +177,32 @@ public class CustomerDAO {
         }
 
         return n;
+    }
+
+    public Customer getCustomer(String username, String password) {
+        Customer cus = null;
+        String SQLQuery = "SELECT [Cid]\n"
+                + "      ,[cname]\n"
+                + "      ,[phone]\n"
+                + "      ,[email]\n"
+                + "      ,[username]\n"
+                + "      ,[password]\n"
+                + "  FROM [Customer] "
+                + "Where username= ? AND password = ? AND status = 1 ";
+        PreparedStatement statement;
+        try {
+            statement = conn.prepareStatement(SQLQuery);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                cus = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), 1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cus;
     }
 //    public static void main(String[] args) {
 //        DBConnection DB = new DBConnection();

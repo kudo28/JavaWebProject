@@ -5,8 +5,12 @@
  */
 package Controller;
 
+import Entity.Customer;
+import Model.CustomerDAO;
+import Model.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,18 +36,39 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
-
+        DBConnection db = new DBConnection();
+        CustomerDAO dao = new CustomerDAO(db);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UserController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String username = request.getParameter("loginID");
+            String password = request.getParameter("password");
+            String service = request.getParameter("service");
+            if(service == null){
+                service = "login";
+            }
+            if(service.equalsIgnoreCase("logout"))
+            {
+                session.invalidate();
+                String err = "You've logged out.Please Log in to continue";
+                request.setAttribute("error", err);
+                RequestDispatcher dis = request.getRequestDispatcher("/loginForm.jsp");
+                //run
+                dis.forward(request, response);
+            }
+            Customer cus = dao.getCustomer(username, password);
+            if (cus != null) {
+                session.setAttribute("User", cus);              
+                response.sendRedirect("ProductController");
+            } else {
+                String err = "Wrong username/password. Try again.";
+                if(service.equalsIgnoreCase("login")){
+                    err = "Please log in to continue";
+                }
+                request.setAttribute("error", err);
+                RequestDispatcher dis = request.getRequestDispatcher("/loginForm.jsp");
+                //run
+                dis.forward(request, response);
+            }
         }
     }
 

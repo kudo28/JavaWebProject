@@ -46,7 +46,7 @@
                 <td><img height="50" width="70" src="<%=rs.getString(8)%> "></td>
                 <td><%=rs.getString(9)%></td>               
                 <td style="padding: 10px"><a href=ProductController?service=addToCart&pid=<%=rs.getString(4)%>><img src="image/buy.png" height="50" width="70" alt="Buy"/> </a></td>
-                <td style="padding: 10px"><a href=ProductController?service=addToCart&pid=<%=rs.getString(4)%>> <img src="image/detail.png" height="50" width="70"/> </a></td>
+                <td style="padding: 10px"><a href=ProductController?service=listProduct&pid=<%=rs.getString(4)%>> <img src="image/detail.png" height="50" width="70"/> </a></td>
             </tr>
             <%}%>
         </table>

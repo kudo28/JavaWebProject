@@ -69,7 +69,7 @@ public class CustomerController extends HttpServlet {
                 }
 
                 int n = dao.insertCustomer(cus);
-                response.sendRedirect("ProductController");
+                response.sendRedirect("UserController?service=login");
             }
             if (service.equalsIgnoreCase("listCustomer")) {
                 String status = request.getParameter("status");

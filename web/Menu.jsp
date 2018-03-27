@@ -18,9 +18,9 @@
             ResultSet rs = (ResultSet) request.getAttribute("ckq");
         %>
         <div style="padding: 20px">
-            <a href="ProductController"> <h5>All</h5></a>    
+            <a href="ProductController"> <h5>All</h5></a>    <hr/>
             <% while (rs.next()) {%>        
-            <a href="ProductController?catID=<%=rs.getString(1)%>"> <h5><%=rs.getString(2)%></h5></a>    
+            <a href="ProductController?catID=<%=rs.getString(1)%>"> <h5><%=rs.getString(2)%></h5></a> <hr/>   
             <%}%>
         </div>
     </body>

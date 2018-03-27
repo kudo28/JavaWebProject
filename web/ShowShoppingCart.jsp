@@ -1,9 +1,13 @@
 <%@page import="Model.DBConnection"%>
 <%@page import="java.sql.ResultSet"%>
 <html>
-    <body>
+    <head>        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    </head>
+    <body style="text-align: center">
         <h1>Shopping Cart Details</h1>
-        <table width=50% border="1" style="text-align: center">
+        <table width=50% border="1" style="text-align: center; margin-left:25%">
             <tr>
                 <th>ID</th>
                 <th>Product Name</th>
@@ -19,7 +23,7 @@
                 for (; em.hasMoreElements();) {
                     String id = em.nextElement().toString();
                     //get value from session object (see HttpSession)
-                    if (id.equalsIgnoreCase("username") || id.equalsIgnoreCase("password")) {
+                    if (id.equalsIgnoreCase("User")) {
                         continue;
                     }
                     String count = session.getAttribute(id).toString();
@@ -41,10 +45,23 @@
 
             %>
         </table>       
-
-
-        <h2><a href="ProductController?service=checkout">Check-out</h2>
-        <h2><a href="ProductController">List Product</h2>
+        <hr/>
+        <div class="row">
+            <div class="col-md-4"> </div>
+            <div class="col-md-4 row">               
+                <div class="col-md-6"> 
+                    <% String checkout = "";
+                        if (total == 0) {
+                            checkout = "disabled";
+                        }
+                    %>
+                    <a href="ProductController?service=checkout"> <button class="btn btn-success btn-lg" <%=checkout%>>Check-out</button></a>
+                </div>
+                <div class="col-md-6"> 
+                    <a href="ProductController">  <button class="btn btn-primary btn-lg">  List Product</button></a>
+                </div></div> 
+            <div class="col-md-4"> </div>
+        </div>
 
     </body>
 </html>
