@@ -168,6 +168,8 @@ public class ProductController extends HttpServlet {
                     session.invalidate();
                     HttpSession session1 = request.getSession();
                     session1.setAttribute("User", temp);
+                } else{
+                    session.removeAttribute(id);
                 }
                 response.sendRedirect("ProductController");
             }
@@ -214,6 +216,9 @@ public class ProductController extends HttpServlet {
                 session1.setAttribute("User", temp);
                 response.sendRedirect("ProductController");
 
+            }
+            if(service.equalsIgnoreCase("changeAmount")){
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);

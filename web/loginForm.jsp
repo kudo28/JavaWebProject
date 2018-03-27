@@ -18,8 +18,8 @@
             error = "Please login to continue";
         }
     %>
-    <body style="background-image: url('image/mountain.jpg')">
-        <div style="margin:150px;text-align: center; padding:2% ; border-radius: 70px; border:1px solid green; margin:100px 400px 0px 400px">
+    <body style="background-image: url('image/mountain.jpg')" class="container">
+        <div style="margin:150px;text-align: center; padding:2% ; border-radius: 70px; border:1px solid green; margin:5% 2% 0px 2%">
             <h6> <%=error%></h6>        
             <form action="UserController" method="post">
                 Login ID :  <input type= "text" name="loginID"><br/><br/>
