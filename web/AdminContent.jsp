@@ -45,12 +45,14 @@
                     <td><%=date%></td>
                     <td><%=rs.getString(4)%></td>
                     <% String status = "Waiting";
+                    String color = "red";
                         if (rs.getString(5).equalsIgnoreCase("1")) {
                             status = "Done";
+                            color = "green";
                         }
                     %>
-                    <td style="color:red"><%=status%></td>               
-                    <td ><a href=# class="btn btn-primary btn-md"> Detail  </a></td>
+                    <td style="color:<%=color%>"><%=status%></td>               
+                    <td ><a href="BillController?service=preupdate&bid=<%=rs.getString(1)%>" class="btn btn-primary btn-md"> Detail  </a></td>
                 </tr>
                 <%}%>
             </table>

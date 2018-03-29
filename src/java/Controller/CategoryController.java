@@ -74,7 +74,7 @@ public class CategoryController extends HttpServlet {
                 String sql = "select * from Category";
                 ResultSet rs = db.getData(sql);
                 request.setAttribute("kq", rs);
-                request.setAttribute("title", "Category List");
+                request.setAttribute("title", "Category Manager");
                 //call view
                 //set view: JSP 
                 RequestDispatcher dis = request.getRequestDispatcher("/Server/Category.jsp");

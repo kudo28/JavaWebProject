@@ -10,6 +10,9 @@ import Model.DBConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -51,9 +54,48 @@ public class BillController extends HttpServlet {
                 //set view: JSP 
                 RequestDispatcher dis = request.getRequestDispatcher("/AdminPage.jsp");
                 //run
-
                 dis.forward(request, response);
 
+            }
+            if (service.equalsIgnoreCase("preupdate")) {
+                String bid = request.getParameter("bid");
+                String ssql = "SELECT [bid]\n"
+                        + "      ,[datecreate]\n"
+                        + "      ,[status]\n"
+                        + "      ,[Cid]\n"
+                        + "      ,[total]\n"
+                        + "      ,[recName]\n"
+                        + "      ,[recPhone]\n"
+                        + "      ,[recEmail]\n"
+                        + "      ,[infor]\n"
+                        + "  FROM [Bill] where bid=" + bid;
+                String psql = "SELECT bd.[pid],\n"
+                        + "	p.pname,\n"
+                        + "      bd.[quantity]      \n"
+                        + "  FROM [BillDetail] bd inner join Product p on bd.pid=p.pid\n"
+                        + "where bid ="+bid;
+                ResultSet rs = db.getData(ssql);
+                ResultSet prs = db.getData(psql);
+
+                request.setAttribute("bkq", rs);
+                request.setAttribute("pkq", prs);
+                //call view
+                //set view: JSP 
+                RequestDispatcher dis = request.getRequestDispatcher("/Server/BillDetail.jsp");
+                //run
+                dis.forward(request, response);
+
+            }
+            if (service.equalsIgnoreCase("updateBill")) {
+                String bid = request.getParameter("bid");
+                String cid = request.getParameter("cid");
+                String rname = request.getParameter("rname");
+                String rphone = request.getParameter("rphone");
+                String rmail = request.getParameter("rmail");
+                String descript = request.getParameter("description");
+                String status = request.getParameter("status");
+                dao.updateBill(bid, cid, rname, rphone, rmail, descript, status);
+                response.sendRedirect("BillController");
             }
         }
     }

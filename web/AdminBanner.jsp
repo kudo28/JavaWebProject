@@ -37,7 +37,7 @@
                 <div class="col-md-6" style="hidden"><a href="UserController?service=login" class="btn btn-primary btn-md">Login</a></div>               
                 <div class="col-md-6"><a href="Client/CustomerForm.html" class="btn btn-success btn-md">Register</a> </div>
             <%} else {%>
-             <div class="col-md-12"><a href="UserController?service=logout" class="btn btn-danger btn-md">Log out</a> </div>
+             <div class="col-md-12"><a href="UserController?service=logout" class="btn btn-danger btn-lg">Log out</a> </div>
              <%}%>
             </div>
             <div class="col-md-4 row" >              

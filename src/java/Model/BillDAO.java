@@ -86,7 +86,24 @@ public class BillDAO {
         }
         return n;
     }
-
+ public int updateBill(String bid, String cid, String rname, String rphone , String rmail, String info,String status) {
+        int n = 0;
+        String sql = "UPDATE Bill SET Cid=?, recName=?, recPhone = ? , recEmail= ? , infor = ? , status= ? where bid =" + bid;
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, cid);
+            pre.setString(2, rname);
+            pre.setString(3, rphone);
+            pre.setString(4, rmail);
+            pre.setString(5, info);          
+            pre.setString(6, status);          
+           
+            n = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
     public int getLastBill() {
         int n = -1;
         try {
